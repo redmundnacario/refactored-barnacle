@@ -5,6 +5,38 @@ require_relative '../converter'
 # puts converter.convert_int_to_ascii_char
 
 RSpec.describe Converter do
+
+    context 'Validates input data type:' do
+        it 'String input not allowed' do
+            converter = described_class.new("awit")
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable type is not integer")
+        end
+        it 'Floats input not allowed' do
+            converter = described_class.new(1.25)
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable type is not integer")
+        end
+        it 'Object/Hashes input not allowed' do
+            converter = described_class.new({a: "123"})
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable type is not integer")
+        end
+        it 'Array input not allowed' do
+            converter = described_class.new([1, 2, 3])
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable type is not integer")
+        end
+    end
+
+    context 'Check integer sign:' do
+        it 'Negative integer input not allowed' do
+            converter = described_class.new(-1)
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable should be a positive integer")
+        end
+        it 'Zero input is not allowed' do
+            converter = described_class.new(0)
+            expect{converter.convert_int_to_ascii_char}.to raise_error(StandardError, "Input variable should be a positive integer")
+        end
+    end
+
+
     context 'Basic tests:' do
         it 'Input 1 should return A' do
             converter = described_class.new(1)

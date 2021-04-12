@@ -4,8 +4,19 @@ class Converter
         @output = ""
     end
 
-    def convert_int_to_ascii_char()
+    def check_input()
+        var_type = @raw_input.instance_of? Integer
+        if var_type == true
+            if @raw_input <= 0
+                raise StandardError.new, "Input variable should be a positive integer"
+            end
+        else
+            raise StandardError.new, "Input variable type is not integer"
+        end
+    end
 
+    def convert_int_to_ascii_char()
+        check_input()
         # modulo
         modulo = @raw_input % 26
 
